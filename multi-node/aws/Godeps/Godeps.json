@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/coreos/coreos-kubernetes/multi-node/aws",
+	"ImportPath": "github.com/AcalephStorage/coreos-kubernetes/multi-node/aws",
 	"GoVersion": "go1.4",
 	"Packages": [
 		"./..."

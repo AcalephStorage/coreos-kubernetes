@@ -30,7 +30,7 @@ Find the [latest release][latest-release] and download the appropriate release a
 tar -xf <file> kube-aws
 ```
 
-[latest-release]: https://github.com/coreos/coreos-kubernetes/releases/latest
+[latest-release]: https://github.com/AcalephStorage/coreos-kubernetes/releases/latest
 
 ### Configure AWS Credentials
 
@@ -66,7 +66,7 @@ curl --silent --location https://raw.githubusercontent.com/coreos/coreos-kuberne
 Edit the file, setting any necessary options according to the [Configuration Guide](#kube-aws-cluster-config).
 Note that some options are required, and have no preconfigured default.
 
-[cluster-yaml-example]: https://github.com/coreos/coreos-kubernetes/blob/master/multi-node/aws/cluster.yaml.example
+[cluster-yaml-example]: https://github.com/AcalephStorage/coreos-kubernetes/blob/master/multi-node/aws/cluster.yaml.example
 
 ### Deploy
 
@@ -112,7 +112,7 @@ When the cluster is taken down, `kube-aws` simply destroys the CloudFormation an
 ## Configuration Guide
 
 If using `kube-aws`, the TLS certificates & keys will automatically be configured.
-Other values are set using the cluster config, an example of which is [available on GitHub](https://github.com/coreos/coreos-kubernetes/blob/master/multi-node/aws/cluster.yaml.example).
+Other values are set using the cluster config, an example of which is [available on GitHub](https://github.com/AcalephStorage/coreos-kubernetes/blob/master/multi-node/aws/cluster.yaml.example).
 
 ### kube-aws Cluster Config
 

@@ -35,7 +35,7 @@ $ mv kubectl /usr/local/bin/kubectl
 The following commands will clone a repository that contains a "Vagrantfile", which describes the set of virtual machines that will run Kubernetes on top of CoreOS.
 
 ```sh
-$ git clone https://github.com/coreos/coreos-kubernetes.git
+$ git clone https://github.com/AcalephStorage/coreos-kubernetes.git
 $ cd coreos-kubernetes/multi-node/vagrant
 ```
 

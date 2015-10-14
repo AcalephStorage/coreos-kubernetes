@@ -26,4 +26,24 @@ externalDNSName:
 # available in a public S3 bucket matching the version
 # of the kube-aws tool. This parameter is typically
 # overwritten only for development purposes.
-#artifactURL: https://coreos-kubernetes.s3.amazonaws.com/<VERSION>
+artifactURL: https://s3.amazonaws.com/acaleph/kube-aws/v1
+
+# Spot Instance price for your node clusters
+
+#spotPrice: 0.39
+
+# EC2 instance type used for each worker instance
+# default value is m3.medium
+workerInstanceType: m4.large
+
+# EC2 instance type used for each controller instance
+# default value is m3.medium
+#controllerInstanceType: m4.large
+
+#Controller root volume size (GiB)
+#workerVolumeSize: 40
+
+
+# Controller root volume size (GiB)
+# default value is 30
+#controllerVolumeSize: 40

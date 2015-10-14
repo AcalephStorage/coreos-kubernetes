@@ -126,6 +126,46 @@ func (c *Cluster) Create(tlsConfig *TLSConfig) error {
 		})
 	}
 
+	if c.cfg.WorkerInstanceType != "" {
+		parameters = append(parameters, &cloudformation.Parameter{
+			ParameterKey:     aws.String(parNameWorkerInstanceType),
+			ParameterValue:   aws.String(c.cfg.WorkerInstanceType),
+			UsePreviousValue: aws.Bool(true),
+		})
+	}
+
+	if c.cfg.ControllerInstanceType != "" {
+		parameters = append(parameters, &cloudformation.Parameter{
+			ParameterKey:     aws.String(parNameControllerInstanceType),
+			ParameterValue:   aws.String(c.cfg.ControllerInstanceType),
+			UsePreviousValue: aws.Bool(true),
+		})
+	}
+
+	if c.cfg.SpotPrice != 0 {
+		parameters = append(parameters, &cloudformation.Parameter{
+			ParameterKey:     aws.String(parSpotPrice),
+			ParameterValue:   aws.String(fmt.Sprintf("%f", c.cfg.SpotPrice)),
+			UsePreviousValue: aws.Bool(true),
+		})
+	}
+
+	if c.cfg.WorkerVolumeSize != 0 {
+		parameters = append(parameters, &cloudformation.Parameter{
+			ParameterKey:     aws.String(parNameWorkerVolumeSize),
+			ParameterValue:   aws.String(fmt.Sprintf("%d", c.cfg.WorkerVolumeSize)),
+			UsePreviousValue: aws.Bool(true),
+		})
+	}
+
+	if c.cfg.ControllerVolumeSize != 0 {
+		parameters = append(parameters, &cloudformation.Parameter{
+			ParameterKey:     aws.String(parNameControllerVolumeSize),
+			ParameterValue:   aws.String(fmt.Sprintf("%d", c.cfg.ControllerVolumeSize)),
+			UsePreviousValue: aws.Bool(true),
+		})
+	}
+
 	tmplURL := fmt.Sprintf("%s/template.json", c.cfg.ArtifactURL)
 	return createStackAndWait(cloudformation.New(c.aws), c.stackName(), tmplURL, parameters)
 }

@@ -3,7 +3,7 @@ package cluster
 import (
 	"encoding/json"
 
-	"github.com/coreos/coreos-kubernetes/multi-node/aws/pkg/coreosutil"
+	"github.com/AcalephStorage/coreos-kubernetes/multi-node/aws/pkg/coreosutil"
 )
 
 const (
@@ -31,6 +31,7 @@ const (
 	parClusterName                = "ClusterName"
 	parNameReleaseChannel         = "ReleaseChannel"
 	parNameControllerInstanceType = "ControllerInstanceType"
+	parNameControllerVolumeSize   = "ControllerVolumeSize"
 	parNameWorkerInstanceType     = "WorkerInstanceType"
 	parNameKeyName                = "KeyName"
 	parArtifactURL                = "ArtifactURL"
@@ -41,6 +42,8 @@ const (
 	parWorkerKey                  = "WorkerKey"
 	parWorkerCount                = "WorkerCount"
 	parAvailabilityZone           = "AvailabilityZone"
+	parSpotPrice                  = "SpotPrice"
+	parNameWorkerVolumeSize       = "WorkerVolumeSize"
 )
 
 var (
@@ -401,6 +404,14 @@ func StackTemplateBody(defaultArtifactURL string) (string, error) {
 					},
 				},
 			},
+			"BlockDeviceMappings": []map[string]interface{}{
+				map[string]interface{}{
+					"DeviceName": "/dev/xvda",
+					"Ebs": map[string]interface{}{
+						"VolumeSize": newRef(parNameControllerVolumeSize),
+					},
+				},
+			},
 			"AvailabilityZone": availabilityZone,
 			"Tags": []map[string]interface{}{
 				newTag(tagKubernetesCluster, newRef(parClusterName)),
@@ -447,11 +458,20 @@ func StackTemplateBody(defaultArtifactURL string) (string, error) {
 			"ImageId":      imageID,
 			"InstanceType": newRef(parNameWorkerInstanceType),
 			"KeyName":      newRef(parNameKeyName),
+			"SpotPrice":    newRef(parSpotPrice),
 			"UserData": map[string]interface{}{
 				"Fn::Base64": renderTemplate(baseWorkerCloudConfig),
 			},
 			"SecurityGroups":     []interface{}{newRef(resNameSecurityGroupWorker)},
 			"IamInstanceProfile": newRef(resNameIAMInstanceProfileWorker),
+			"BlockDeviceMappings": []map[string]interface{}{
+				map[string]interface{}{
+					"DeviceName": "/dev/xvda",
+					"Ebs": map[string]interface{}{
+						"VolumeSize": newRef(parNameWorkerVolumeSize),
+					},
+				},
+			},
 		},
 	}
 
@@ -493,6 +513,12 @@ func StackTemplateBody(defaultArtifactURL string) (string, error) {
 		"Type":        "String",
 		"Default":     "m3.medium",
 		"Description": "EC2 instance type used for each controller instance",
+	}
+
+	par[parNameControllerVolumeSize] = map[string]interface{}{
+		"Type":        "String",
+		"Default":     "30",
+		"Description": "Controller root volume size (GiB)",
 	}
 
 	par[parNameWorkerInstanceType] = map[string]interface{}{
@@ -547,6 +573,18 @@ func StackTemplateBody(defaultArtifactURL string) (string, error) {
 		"Type":        "String",
 		"Default":     "",
 		"Description": "Specific availability zone",
+	}
+
+	par[parSpotPrice] = map[string]interface{}{
+		"Type":        "Number",
+		"Default":     "0",
+		"Description": "Specific availability zone",
+	}
+
+	par[parNameWorkerVolumeSize] = map[string]interface{}{
+		"Type":        "String",
+		"Default":     "30",
+		"Description": "Worker root volume size (GiB)",
 	}
 
 	regionMap, err := getRegionMap()

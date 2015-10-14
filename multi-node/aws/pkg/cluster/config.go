@@ -14,13 +14,18 @@ var (
 )
 
 type Config struct {
-	ClusterName      string `yaml:"clusterName"`
-	ExternalDNSName  string `yaml:"externalDNSName"`
-	KeyName          string `yaml:"keyName"`
-	Region           string `yaml:"region"`
-	AvailabilityZone string `yaml:"availabilityZone"`
-	ArtifactURL      string `yaml:"artifactURL"`
-	WorkerCount      int    `yaml:"workerCount"`
+	ClusterName            string  `yaml:"clusterName"`
+	ExternalDNSName        string  `yaml:"externalDNSName"`
+	KeyName                string  `yaml:"keyName"`
+	Region                 string  `yaml:"region"`
+	AvailabilityZone       string  `yaml:"availabilityZone"`
+	ArtifactURL            string  `yaml:"artifactURL"`
+	WorkerInstanceType     string  `yaml:"workerInstanceType"`
+	ControllerInstanceType string  `yaml:"controllerInstanceType"`
+	SpotPrice              float64 `yaml:"spotPrice"`
+	WorkerCount            int     `yaml:"workerCount"`
+	WorkerVolumeSize       int     `yaml:"workerVolumeSize"`
+	ControllerVolumeSize   int     `yaml:"controllerVolumeSize"`
 }
 
 func (cfg *Config) Valid() error {

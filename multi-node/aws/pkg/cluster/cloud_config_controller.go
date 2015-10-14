@@ -50,4 +50,9 @@ write_files:
 - path: /etc/kubernetes/ssl/apiserver-key.pem
   encoding: base64
   content: {{ APIServerKey }}
+
+- path: /etc/kubernetes/ssl/token-auth.csv
+  content: |
+    C0QBLTDuL3xJlBsz1YKFFIA4yzUNAhs1,admin,admin
+    
 `
