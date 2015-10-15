@@ -38,6 +38,7 @@ const (
 	parCACert                     = "CACert"
 	parAPIServerCert              = "APIServerCert"
 	parAPIServerKey               = "APIServerKey"
+	parAPIToken                   = "APIToken"
 	parWorkerCert                 = "WorkerCert"
 	parWorkerKey                  = "WorkerKey"
 	parWorkerCount                = "WorkerCount"
@@ -135,6 +136,14 @@ func StackTemplateBody(defaultArtifactURL string) (string, error) {
 			"EmptyAvailabilityZone",
 			defaultAvailabilityZone,
 			newRef(parAvailabilityZone),
+		},
+	}
+
+	spotPrice := map[string]interface{}{
+		"Fn::If": []interface{}{
+			"NotSpotInstance",
+			newRef("AWS::NoValue"),
+			newRef(parSpotPrice),
 		},
 	}
 
@@ -458,7 +467,7 @@ func StackTemplateBody(defaultArtifactURL string) (string, error) {
 			"ImageId":      imageID,
 			"InstanceType": newRef(parNameWorkerInstanceType),
 			"KeyName":      newRef(parNameKeyName),
-			"SpotPrice":    newRef(parSpotPrice),
+			"SpotPrice":    spotPrice,
 			"UserData": map[string]interface{}{
 				"Fn::Base64": renderTemplate(baseWorkerCloudConfig),
 			},
@@ -553,6 +562,12 @@ func StackTemplateBody(defaultArtifactURL string) (string, error) {
 		"Description": "PEM-formatted kube-apiserver key, base64-encoded",
 	}
 
+	par[parAPIToken] = map[string]interface{}{
+		"Type":        "String",
+		"Default":     "",
+		"Description": "kube-apiserver key with the following format token,user name ,user id",
+	}
+
 	par[parWorkerCert] = map[string]interface{}{
 		"Type":        "String",
 		"Description": "PEM-formatted kubelet (worker) certificate, base64-encoded",
@@ -602,6 +617,12 @@ func StackTemplateBody(defaultArtifactURL string) (string, error) {
 			"Fn::Equals": []interface{}{
 				newRef(parAvailabilityZone),
 				"",
+			},
+		},
+		"NotSpotInstance": map[string]interface{}{
+			"Fn::Equals": []interface{}{
+				newRef(parSpotPrice),
+				"0",
 			},
 		},
 	}

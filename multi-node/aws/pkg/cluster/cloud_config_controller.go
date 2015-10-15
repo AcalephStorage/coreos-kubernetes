@@ -53,6 +53,6 @@ write_files:
 
 - path: /etc/kubernetes/ssl/token-auth.csv
   content: |
-    C0QBLTDuL3xJlBsz1YKFFIA4yzUNAhs1,admin,admin
+    {{ APIToken }}
     
 `

@@ -22,6 +22,7 @@ type Config struct {
 	ArtifactURL            string  `yaml:"artifactURL"`
 	WorkerInstanceType     string  `yaml:"workerInstanceType"`
 	ControllerInstanceType string  `yaml:"controllerInstanceType"`
+	APIToken               string  `yaml:"apiToken"`
 	SpotPrice              float64 `yaml:"spotPrice"`
 	WorkerCount            int     `yaml:"workerCount"`
 	WorkerVolumeSize       int     `yaml:"workerVolumeSize"`
