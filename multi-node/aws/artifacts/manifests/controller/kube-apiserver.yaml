@@ -24,6 +24,7 @@ spec:
     - --service-account-key-file=/etc/kubernetes/ssl/apiserver-key.pem
     - --cloud-provider=aws
     - --token-auth-file=/etc/kubernetes/ssl/token-auth.csv
+    - --cors-allowed-origins=.*
     ports:
     - containerPort: 443
       hostPort: 443
