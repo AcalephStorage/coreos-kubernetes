@@ -77,8 +77,9 @@ function init_templates {
 		mkdir -p $(dirname $TEMPLATE)
 		cat << EOF > $TEMPLATE
 [Service]
+User=core
 ExecStartPre=/usr/bin/mkdir -p /etc/kubernetes/manifests
-ExecStart=/usr/bin/kubelet \
+ExecStart=/usr/bin/sudo /usr/bin/kubelet \
   --api_servers=${CONTROLLER_ENDPOINT} \
   --register-node=true \
   --allow-privileged=true \
